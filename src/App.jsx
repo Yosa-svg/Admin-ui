@@ -4,7 +4,7 @@ function App() {
   return (
     <main className="min-h-screen bg-special-mainBg flex justify-center items-center p-4">
       {/* container start */}
-      <div className="w-full max-w-[420px]">
+      <div className="w-full max-w-sm">
         {/* logo start */}
         <div className="flex justify-center font-poppins tracking-wide text-primary text-4xl mb-12">
           <span className="font-bold">FINE</span>
