@@ -12,15 +12,8 @@ function PostCard({ id, userId, title, body }) {
         {body}
       </p>
       <button
+        className={`mt-4 ${clicked ? "bg-special-red2" : "bg-gray-400"} text-white p-2 rounded-md transition-colors`}
         onClick={() => setClicked(true)}
-        className={`
-          mt-auto w-full py-2 px-4 rounded-md text-white font-medium
-          transition-all duration-300
-          ${clicked
-            ? "bg-special-red2 hover:bg-red-400"
-            : "bg-gray-400 hover:bg-gray-300"
-          }
-        `}
       >
         {clicked ? "Tombol sudah diklik" : "Silakan Klik"}
       </button>
