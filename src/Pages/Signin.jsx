@@ -4,7 +4,7 @@ import FormSignin from '../components/Fragments/FormSignin';
 
 function Signin() {
     return (
-        <AuthLayout>
+        <AuthLayout title="Sign in to your account" type="login">
             <FormSignin />
         </AuthLayout>
     )
