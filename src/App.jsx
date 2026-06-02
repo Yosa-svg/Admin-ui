@@ -2,19 +2,24 @@ import "./App.css";
 import SignInPage from "./Pages/Signin";
 import SignUpPage from "./Pages/Signup";
 import DashboardPage from "./Pages/Dashboard";
+import BalancePage from "./Pages/Balance";
 import ErrorPage from "./Pages/error";
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 function App() {
   const myRouter = createBrowserRouter([
     {
       path: "/",
-      element: <Navigate to="/dashboard" replace />,
+      element: <DashboardPage />,
       errorElement: <ErrorPage />,
     },
     {
       path: "/dashboard",
       element: <DashboardPage />,
+    },
+    {
+      path: "/balance",
+      element: <BalancePage />,
     },
     {
       path: "/login",
