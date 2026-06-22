@@ -1,10 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import Form from "./Latihan/Form.jsx";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+import { ThemeContextProvider } from './context/themeContext.jsx'
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Form />
-  </React.StrictMode>,
-);
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <ThemeContextProvider>
+      <App />
+    </ThemeContextProvider>
+  </StrictMode>,
+)
