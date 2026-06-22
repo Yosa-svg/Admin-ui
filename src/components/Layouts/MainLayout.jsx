@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../Elements/Logo";
 import Input from "../Elements/Input";
 import Icon from "../Elements/Icon";
+import { ThemeContext } from "../../context/themeContext";
 
 const menu = [
   { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -14,12 +15,21 @@ const menu = [
   { id: 7, name: "Settings", icon: <Icon.Setting />, link: "/setting" },
 ];
 
+const themes = [
+  { name: "theme-green", bgcolor: "bg-[#299D91]", color: "#299D91" },
+  { name: "theme-blue", bgcolor: "bg-[#1E90FF]", color: "#1E90FF" },
+  { name: "theme-purple", bgcolor: "bg-[#6A5ACD]", color: "#6A5ACD" },
+  { name: "theme-pink", bgcolor: "bg-[#DB7093]", color: "#DB7093" },
+  { name: "theme-brown", bgcolor: "bg-[#8B4513]", color: "#8B4513" },
+];
+
 function MainLayout(props) {
   const { children } = props;
+  const { theme, setTheme } = useContext(ThemeContext);
 
   return (
     <>
-      <div className="flex min-h-screen">
+      <div className={`flex min-h-screen ${theme.name}`}>
 
         {/* ===== ASIDE / SIDEBAR ===== */}
         <aside className="bg-defaultBlack w-28 sm:w-64 text-special-bg2 flex flex-col justify-between py-10 px-4">
@@ -53,18 +63,38 @@ function MainLayout(props) {
             </nav>
           </div>
 
-          {/* Bagian bawah: Logout + Info User */}
+          {/* Bagian bawah: Themes + Logout + Info User */}
           <div>
+
+            {/* Theme Picker */}
+            <div className="mb-6">
+              <div className="text-special-bg2 text-sm mb-2 hidden sm:block">Themes</div>
+              <div className="flex flex-col sm:flex-row gap-2 items-center">
+                {themes.map((t) => (
+                  <div
+                    key={t.name}
+                    className={`${t.bgcolor} w-6 h-6 rounded-md cursor-pointer mb-2 ${
+                      theme.name === t.name ? "ring-2 ring-white" : ""
+                    }`}
+                    onClick={() => setTheme(t)}
+                  ></div>
+                ))}
+              </div>
+            </div>
+
             {/* Logout */}
-            <div className="flex bg-special-bg3 text-white px-4 py-3 rounded-md cursor-pointer hover:bg-primary hover:font-bold transition-all">
+            <NavLink
+              to="/login"
+              className="flex text-primary px-4 py-3 rounded-md cursor-pointer hover:bg-special-bg3 hover:font-bold transition-all"
+            >
               <div className="mx-auto sm:mx-0">
                 <Icon.Logout />
               </div>
               <div className="ms-3 hidden sm:block">Logout</div>
-            </div>
+            </NavLink>
 
             {/* Pemisah */}
-            <div className="border my-10 border-b-special-bg"></div>
+            <div className="border my-6 border-b-special-bg"></div>
 
             {/* Info User */}
             <div className="flex justify-between items-center">
@@ -95,7 +125,7 @@ function MainLayout(props) {
             </div>
             {/* Kanan: Icon + Search */}
             <div className="flex items-center">
-              <div className="me-3 text-gray-02">
+              <div className="me-3 text-primary">
                 <Icon.ChevronRight />
               </div>
               <Input

@@ -1,0 +1,34 @@
+# ======================================
+# DATA ENDPOINTS
+# Backend: https://jwt-auth-eight-neon.vercel.app
+# ======================================
+# PENTING: Lakukan LOGIN dulu di auth.rest untuk mendapatkan refreshToken
+# Ganti <YOUR_REFRESH_TOKEN> di setiap request dengan token hasil login
+
+
+### GET GOALS
+# Method: GET
+# Kirim refreshToken pada Header Authorization dengan jenis Bearer
+# Response 200 OK → { "data": [] }  (array kosong jika belum ada data)
+# Response 200 OK → { "data": [...] } (array berisi data jika sudah ada)
+# Response 401 Unauthorized → { "msg": "Forbidden" }
+
+GET https://jwt-auth-eight-neon.vercel.app/goals
+Authorization: Bearer <YOUR_REFRESH_TOKEN>
+
+
+### POST GOALS (Tambah data goals)
+# Method: POST
+# Kirim refreshToken pada Header Authorization dengan jenis Bearer
+# Data target_amount dan present_amount dikirim dalam bentuk JSON
+# Response 200 OK → { "msg": "Insert Data Berhasil" }
+# Response 401 Unauthorized → { "msg": "Forbidden" }
+
+POST https://jwt-auth-eight-neon.vercel.app/goals
+Authorization: Bearer <YOUR_REFRESH_TOKEN>
+Content-Type: application/json
+
+{
+  "target_amount": 20000,
+  "present_amount": 12500
+}

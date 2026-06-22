@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Logo from '../Elements/Logo'
+import { ThemeContext } from '../../context/themeContext'
 
 function AuthLayout(props) {
     const { children, title, type } = props;
+    const { theme } = useContext(ThemeContext);
 
     return (
         <>
-            <main className="min-h-screen bg-special-mainBg flex">
+            <main className={`min-h-screen bg-special-mainBg flex ${theme.name}`}>
 
                 {/* Left panel - hidden on mobile, visible on md+ */}
                 <div className="hidden md:flex md:w-1/2 bg-primary flex-col justify-between p-12 relative overflow-hidden">

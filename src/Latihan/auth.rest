@@ -1,0 +1,31 @@
+# ======================================
+# AUTH ENDPOINTS
+# Backend: https://jwt-auth-eight-neon.vercel.app
+# ======================================
+
+
+### LOGIN
+# Method: POST
+# Kirim email + password dalam bentuk JSON
+# Response 200 OK       → refreshToken (string)
+# Response 404 Not Found → { "msg": "Email not Found" }
+# Response 400 Bad Request → { "msg": "Wrong Password" }
+
+POST https://jwt-auth-eight-neon.vercel.app/login
+Content-Type: application/json
+
+{
+  "email": "mahasiswa@mhs.dinus.ac.id",
+  "password": "password123"
+}
+
+
+### LOGOUT
+# Method: POST
+# Kirim refreshToken pada Header Authorization dengan jenis Bearer
+# Ganti <YOUR_REFRESH_TOKEN> dengan token hasil login di atas
+# Response 200 OK       → logout berhasil
+# Response 401 Unauthorized → { "msg": "Forbidden" }
+
+POST https://jwt-auth-eight-neon.vercel.app/logout
+Authorization: Bearer <YOUR_REFRESH_TOKEN>
