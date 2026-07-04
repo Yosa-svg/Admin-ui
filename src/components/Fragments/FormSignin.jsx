@@ -6,15 +6,22 @@ import Icon from "../Elements/Icon";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
-
-function FormSignIn() {
+function FormSignIn(props) {
+  const { onSubmit } = props;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(email, password);
+  };
 
   return (
     <>
       {/* form start */}
       <div className="mt-10">
-        <form action="">
+        <form onSubmit={handleSubmit}>
           {/* Email field with icon */}
           <div className="mb-6">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -29,6 +36,8 @@ function FormSignIn() {
                 id="email"
                 name="email"
                 placeholder="hello@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 text-sm rounded-md bg-special-mainBg border border-gray-300 text-gray-900 focus:border-primary focus:outline-none focus:ring-0 transition-colors"
               />
             </div>
@@ -48,6 +57,8 @@ function FormSignIn() {
                 id="password"
                 name="password"
                 placeholder="••••••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-10 py-3 text-sm rounded-md bg-special-mainBg border border-gray-300 text-gray-900 focus:border-primary focus:outline-none focus:ring-0 transition-colors"
               />
               <button
