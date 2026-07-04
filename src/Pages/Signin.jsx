@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import AuthLayout from '../components/Layouts/AuthLayout';
 import FormSignin from '../components/Fragments/FormSignin';
 import { loginService } from '../services/authService';
+import { AuthContext } from '../context/authContext';
 
 function Signin() {
+  const { login } = useContext(AuthContext);
+
   const handleLogin = async (email, password) => {
     try {
       const { refreshToken } = await loginService(email, password);
-      console.log(refreshToken); 
+      login(refreshToken); 
     } catch (err) {
       console.error(err.msg);
     }

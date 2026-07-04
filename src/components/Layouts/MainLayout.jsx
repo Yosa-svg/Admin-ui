@@ -4,6 +4,7 @@ import Logo from "../Elements/Logo";
 import Input from "../Elements/Input";
 import Icon from "../Elements/Icon";
 import { ThemeContext } from "../../context/themeContext";
+import { AuthContext } from "../../context/authContext";
 
 const menu = [
   { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -26,6 +27,7 @@ const themes = [
 function MainLayout(props) {
   const { children } = props;
   const { theme, setTheme } = useContext(ThemeContext);
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <>
@@ -83,26 +85,27 @@ function MainLayout(props) {
             </div>
 
             {/* Logout */}
-            <NavLink
-              to="/login"
+            <div
+              onClick={logout}
               className="flex text-primary px-4 py-3 rounded-md cursor-pointer hover:bg-special-bg3 hover:font-bold transition-all"
             >
               <div className="mx-auto sm:mx-0">
                 <Icon.Logout />
               </div>
               <div className="ms-3 hidden sm:block">Logout</div>
-            </NavLink>
+            </div>
 
             {/* Pemisah */}
             <div className="border my-6 border-b-special-bg"></div>
 
             {/* Info User */}
             <div className="flex justify-between items-center">
-              <div>Avatar</div>
+              <div className="w-10 h-10 bg-gray-300 rounded-md flex items-center justify-center text-gray-600 font-bold">
+                {user?.name?.charAt(0).toUpperCase()}
+              </div>
               <div className="hidden sm:block">
-                Username
-                <br />
-                View Profile
+                <div className="font-bold">{user?.name}</div>
+                <div className="text-sm text-gray-500">View Profile</div>
               </div>
               <div className="hidden sm:block">
                 <Icon.Detail />
@@ -120,7 +123,7 @@ function MainLayout(props) {
           <div className="border border-b border-gray-05 px-6 py-4 flex justify-between items-center bg-white">
             {/* Kiri: Username + Date */}
             <div className="flex items-center">
-              <div className="font-semibold text-defaultBlack me-3">Hello Tanzir</div>
+              <div className="font-semibold text-defaultBlack me-3">Hello {user?.name}</div>
               <div className="text-gray-02 text-sm">May 19, 2023</div>
             </div>
             {/* Kanan: Icon + Search */}
