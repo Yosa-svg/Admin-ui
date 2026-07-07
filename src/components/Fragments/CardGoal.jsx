@@ -5,7 +5,9 @@ import CompositionExample from "../Elements/CompositionExample";
 
 function CardGoal(props) {
   const { data } = props;
-  const chartValue = (data.presentAmount / data.targetAmount) * 100;
+  const chartValue = data.present_amount
+    ? (data.present_amount / data.target_amount) * 100
+    : 0;
 
   return (
     <>
@@ -16,7 +18,7 @@ function CardGoal(props) {
             <div className="flex justify-between items-center">
               <div className="flex">
                 <span className="text-2xl font-bold me-4">
-                  ${data.targetAmount}
+                  ${data.target_amount || 0}
                 </span>
                 <div className="p-2 bg-gray-05 text-gray-01 rounded-md box-border">
                   <Icon.Edit size={16} />
@@ -32,7 +34,7 @@ function CardGoal(props) {
                   <div className="ms-2">
                     <div>Target Achieved</div>
                     <div className="font-bold text-xl text-black">
-                      ${data.presentAmount}
+                      ${data.present_amount || 0}
                     </div>
                   </div>
                 </div>
@@ -41,7 +43,7 @@ function CardGoal(props) {
                   <div className="ms-2">
                     <div>This Month Target</div>
                     <div className="font-bold text-xl text-black">
-                      ${data.targetAmount}
+                      ${data.target_amount || 0}
                     </div>
                   </div>
                 </div>

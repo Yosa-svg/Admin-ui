@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LabeledInput from "../Elements/Labeleninput";
 import CheckBox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
-import Icon from "../Elements/Icon";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
@@ -29,7 +28,7 @@ function FormSignIn(props) {
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <Icon icon={FiMail} size={18} />
+                <FiMail size={18} />
               </span>
               <input
                 type="email"
@@ -50,7 +49,7 @@ function FormSignIn(props) {
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <Icon icon={FiLock} size={18} />
+                <FiLock size={18} />
               </span>
               <input
                 type={showPassword ? "text" : "password"}
@@ -66,7 +65,7 @@ function FormSignIn(props) {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-02 hover:text-gray-01 transition-colors"
               >
-                <Icon icon={showPassword ? FiEyeOff : FiEye} size={18} />
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
               </button>
             </div>
           </div>
@@ -95,7 +94,7 @@ function FormSignIn(props) {
       <div className="mb-8">
         <Button type="button" variant="secondary">
           <span className="flex items-center justify-center gap-2">
-            <Icon icon={FcGoogle} size={22} />
+            <FcGoogle size={22} />
             Continue with Google
           </span>
         </Button>
