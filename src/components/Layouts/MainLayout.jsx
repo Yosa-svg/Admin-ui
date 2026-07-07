@@ -5,6 +5,7 @@ import Input from "../Elements/Input";
 import Icon from "../Elements/Icon";
 import { ThemeContext } from "../../context/themeContext";
 import { AuthContext } from "../../context/authContext";
+import { logoutService } from "../../services/authService";
 
 const menu = [
   { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -28,6 +29,18 @@ function MainLayout(props) {
   const { children } = props;
   const { theme, setTheme } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    try {
+      await logoutService();
+      logout(); 
+    } catch (err) {
+      console.error(err);
+      if (err.status === 401) {
+        logout();
+      }
+    }
+  };
 
   return (
     <>
@@ -86,7 +99,7 @@ function MainLayout(props) {
 
             {/* Logout */}
             <div
-              onClick={logout}
+              onClick={handleLogout}
               className="flex text-primary px-4 py-3 rounded-md cursor-pointer hover:bg-special-bg3 hover:font-bold transition-all"
             >
               <div className="mx-auto sm:mx-0">
