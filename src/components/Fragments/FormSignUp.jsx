@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LabeledInput from "../Elements/Labeleninput";
 import CheckBox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
-import Icon from "../Elements/Icon";
 import { Link } from "react-router-dom";
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 
@@ -22,7 +21,7 @@ function FormSignUp() {
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <Icon icon={FiUser} size={18} />
+                <FiUser size={18} />
               </span>
               <input
                 type="text"
@@ -41,7 +40,7 @@ function FormSignUp() {
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <Icon icon={FiMail} size={18} />
+                <FiMail size={18} />
               </span>
               <input
                 type="email"
@@ -60,7 +59,7 @@ function FormSignUp() {
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <Icon icon={FiLock} size={18} />
+                <FiLock size={18} />
               </span>
               <input
                 type={showPassword ? "text" : "password"}
@@ -74,7 +73,7 @@ function FormSignUp() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-02 hover:text-gray-01 transition-colors"
               >
-                <Icon icon={showPassword ? FiEyeOff : FiEye} size={18} />
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
               </button>
             </div>
           </div>

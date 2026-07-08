@@ -15,10 +15,21 @@ import {
 } from "../data";
 import { AuthContext } from "../context/authContext";
 import { goalService } from "../services/dataService";
+import AppSnackbar from "../components/Elements/AppSnackbar";
 
 function Dashboard() {
   const [goals, setGoals] = useState({});
   const { logout } = useContext(AuthContext);
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   const fetchGoals = async () => {
     try {
@@ -28,6 +39,8 @@ function Dashboard() {
       console.error("Gagal mengambil data goals:", err);
       if (err.status === 401) {
         logout();
+      } else {
+        setSnackbar({ open: true, message: err.msg || "Failed to fetch goals", severity: "error" });
       }
     }
   };
@@ -63,6 +76,12 @@ function Dashboard() {
         </div>
 
       </div>
+      <AppSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        severity={snackbar.severity}
+        onClose={handleCloseSnackbar}
+      />
     </MainLayout>
   );
 }
