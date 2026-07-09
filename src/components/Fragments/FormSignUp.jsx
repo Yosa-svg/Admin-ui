@@ -1,94 +1,122 @@
-import React, { useState } from "react";
+import React from "react";
 import LabeledInput from "../Elements/Labeleninput";
 import CheckBox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
-import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-function FormSignUp() {
-  const [showPassword, setShowPassword] = useState(false);
+const SignUpSchema = Yup.object().shape({
+  name: Yup.string().required("Nama wajib diisi"),
+  email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
+  password: Yup.string().min(8, "Password minimal 8 karakter").required("Password wajib diisi"),
+});
+
+function FormSignUp(props) {
+  const { onSubmit } = props;
 
   return (
     <>
       {/* form start */}
       <div className="mt-10">
-        <form action="">
+        <Formik
+          initialValues={{
+            name: "",
+            email: "",
+            password: "",
+            agree: false,
+          }}
+          validationSchema={SignUpSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              await onSubmit(values.name, values.email, values.password);
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* NAME */}
+              <div className="mb-6">
+                <Field name="name">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="name"
+                      type="text"
+                      label="Full Name"
+                      placeholder="John Doe"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="name"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />  
+              </div>
 
-          {/* Full Name field */}
-          <div className="mb-6">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
-              Full Name
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <FiUser size={18} />
-              </span>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="John Doe"
-                className="w-full pl-10 pr-4 py-3 text-sm rounded-md bg-special-mainBg border border-gray-300 text-gray-900 focus:border-primary focus:outline-none focus:ring-0 transition-colors"
-              />
-            </div>
-          </div>
+              {/* EMAIL */}
+              <div className="mb-6">
+                <Field name="email">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="email"
+                      type="email"
+                      label="Email Address"
+                      placeholder="hello@example.com"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />  
+              </div>
 
-          {/* Email field */}
-          <div className="mb-6">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
-              Email Address
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <FiMail size={18} />
-              </span>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="hello@example.com"
-                className="w-full pl-10 pr-4 py-3 text-sm rounded-md bg-special-mainBg border border-gray-300 text-gray-900 focus:border-primary focus:outline-none focus:ring-0 transition-colors"
-              />
-            </div>
-          </div>
+              {/* PASSWORD */}
+              <div className="mb-6">
+                <Field name="password">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="password"
+                      type="password"
+                      label="Password"
+                      placeholder="••••••••••••"
+                    />
+                  )}
+                </Field> 
+                <ErrorMessage
+                  name="password"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                /> 
+              </div>
 
-          {/* Password field with show/hide toggle */}
-          <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
-              Password
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-02">
-                <FiLock size={18} />
-              </span>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                placeholder="••••••••••••"
-                className="w-full pl-10 pr-10 py-3 text-sm rounded-md bg-special-mainBg border border-gray-300 text-gray-900 focus:border-primary focus:outline-none focus:ring-0 transition-colors"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-02 hover:text-gray-01 transition-colors"
-              >
-                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-              </button>
-            </div>
-          </div>
+              {/* CHECKBOX */}
+              <div className="mb-5">
+                <Field name="agree">
+                  {({ field }) => (
+                    <CheckBox
+                      {...field}
+                      id="agree"
+                      type="checkbox"
+                      checked={field.value}
+                      label="I agree to the terms and conditions"
+                    />
+                  )}
+                </Field>
+              </div>
 
-          <div className="mb-5">
-            <CheckBox
-              label="I agree to the terms and conditions"
-              id="agree"
-              type="checkbox"
-              name="agree"
-            />
-          </div>
-
-          <Button>Register</Button>
-        </form>
+              {/* BUTTON */}
+              <Button>{isSubmitting ? "Loading..." : "Register"}</Button>
+            </Form>
+          )}
+        </Formik>
       </div>
       {/* form end */}
 

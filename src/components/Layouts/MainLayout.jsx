@@ -133,7 +133,7 @@ function MainLayout(props) {
         <div className="bg-special-mainBg flex-1 flex flex-col">
 
           {/* Header */}
-          <div className="border border-b border-gray-05 px-6 py-4 flex justify-between items-center bg-white">
+          <header className="border border-b border-gray-05 px-6 py-4 flex justify-between items-center bg-white">
             {/* Kiri: Username + Date */}
             <div className="flex items-center">
               <div className="font-semibold text-defaultBlack me-3">Hello {user?.name}</div>
@@ -151,7 +151,7 @@ function MainLayout(props) {
                 border="border-white"
               />
             </div>
-          </div>
+          </header>
 
           {/* Content Utama */}
           <div className="flex-1 px-6 py-6">

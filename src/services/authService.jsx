@@ -15,6 +15,18 @@ export const loginService = async (email, password) => {
   }
 };
 
+export const registerService = async (name, email, password) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/register`,
+      { name, email, password },
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { msg: "Register gagal" };
+  }
+};
+
 export const logoutService = async () => {
   try {
     const token = localStorage.getItem("token");

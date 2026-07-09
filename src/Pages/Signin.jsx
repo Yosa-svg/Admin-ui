@@ -20,10 +20,17 @@ function Signin() {
 
   const handleLogin = async (email, password) => {
     try {
-      const { refreshToken } = await loginService(email, password);
-      login(refreshToken); 
+      const response = await loginService(email, password);
+      const tokenToUse = response.refreshToken || response.token || response.accessToken || response.data?.token || response.data?.refreshToken;
+      
+      if (!tokenToUse) {
+        setSnackbar({ open: true, message: "Token kredensial tidak ditemukan dari server.", severity: "error" });
+        return;
+      }
+      
+      login(tokenToUse); 
     } catch (err) {
-      setSnackbar({ open: true, message: err.msg, severity: "error" });
+      setSnackbar({ open: true, message: err.msg || err.message || "Gagal Login", severity: "error" });
     }
   };
 

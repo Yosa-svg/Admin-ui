@@ -65,7 +65,7 @@ function FormSignIn(props) {
                       id="password"
                       type="password"
                       label="Password"
-                      placeholder="●●●●●●●●●●●●●●"
+                      placeholder="*************"
                     />
                   )}
                 </Field> 
