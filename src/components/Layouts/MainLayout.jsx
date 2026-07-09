@@ -8,7 +8,7 @@ import Icon from "../Elements/Icon";
 import { ThemeContext } from "../../context/themeContext";
 import { AuthContext } from "../../context/authContext";
 import { logoutService } from "../../services/authService";
-import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
+import { MdOutlineLightMode, MdOutlineDarkMode, MdOutlineNotifications } from "react-icons/md";
 
 const menu = [
   { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -157,8 +157,8 @@ function MainLayout(props) {
             </div>
             {/* Kanan: Icon + Search */}
             <div className="flex items-center">
-              <div className="me-3 text-primary">
-                <Icon.ChevronRight />
+              <div className="me-4 text-primary cursor-pointer hover:text-opacity-80 transition-all">
+                <MdOutlineNotifications size={24} />
               </div>
               <Input
                 type="text"
