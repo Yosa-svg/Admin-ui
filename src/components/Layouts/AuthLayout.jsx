@@ -7,8 +7,8 @@ function AuthLayout(props) {
     const { theme, mode } = useContext(ThemeContext);
 
     return (
-        <>
-            <main className={`min-h-screen bg-white dark:bg-gray-900 flex justify-center items-center p-6 md:p-12 ${theme.name} ${mode === "dark" ? "dark" : ""}`}>
+        <div className={`${theme.name} ${mode === "dark" ? "dark" : ""}`}>
+            <main className="min-h-screen bg-white dark:bg-gray-900 flex justify-center items-center p-6 md:p-12">
                 <div className="w-full max-w-sm">
 
                     {/* Logo */}
@@ -28,8 +28,8 @@ function AuthLayout(props) {
 
                 </div>
             </main>
-        </>
+        </div>
     );
 }
 
-export default AuthLayout
+export default AuthLayout;
