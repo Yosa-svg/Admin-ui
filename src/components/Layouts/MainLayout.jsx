@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import Logo from "../Elements/Logo";
 import Input from "../Elements/Input";
 import Icon from "../Elements/Icon";
 import { ThemeContext } from "../../context/themeContext";
 import { AuthContext } from "../../context/authContext";
 import { logoutService } from "../../services/authService";
+import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 
 const menu = [
   { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -27,10 +30,12 @@ const themes = [
 
 function MainLayout(props) {
   const { children } = props;
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme, mode, toggleMode } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     try {
       await logoutService();
       logout(); 
@@ -39,12 +44,14 @@ function MainLayout(props) {
       if (err.status === 401) {
         logout();
       }
+    } finally {
+      setIsLoggingOut(false);
     }
   };
 
   return (
     <>
-      <div className={`flex min-h-screen ${theme.name}`}>
+      <div className={`flex min-h-screen ${theme.name} ${mode === "dark" ? "dark" : ""}`}>
 
         {/* ===== ASIDE / SIDEBAR ===== */}
         <aside className="bg-defaultBlack w-28 sm:w-64 text-special-bg2 flex flex-col justify-between py-10 px-4">
@@ -82,18 +89,27 @@ function MainLayout(props) {
           <div>
 
             {/* Theme Picker */}
-            <div className="mb-6">
-              <div className="text-special-bg2 text-sm mb-2 hidden sm:block">Themes</div>
-              <div className="flex flex-col sm:flex-row gap-2 items-center">
-                {themes.map((t) => (
-                  <div
-                    key={t.name}
-                    className={`${t.bgcolor} w-6 h-6 rounded-md cursor-pointer mb-2 ${
-                      theme.name === t.name ? "ring-2 ring-white" : ""
-                    }`}
-                    onClick={() => setTheme(t)}
-                  ></div>
-                ))}
+            <div className="mb-6 flex justify-between items-center">
+              <div>
+                <div className="text-special-bg2 text-sm mb-2 hidden sm:block">Themes</div>
+                <div className="flex flex-col sm:flex-row gap-2 items-center">
+                  {themes.map((t) => (
+                    <div
+                      key={t.name}
+                      className={`${t.bgcolor} w-6 h-6 rounded-md cursor-pointer mb-2 ${
+                        theme.name === t.name ? "ring-2 ring-white" : ""
+                      }`}
+                      onClick={() => setTheme(t)}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+              <div 
+                className="text-special-bg2 cursor-pointer mt-5 me-2 hover:text-white transition-all hidden sm:block" 
+                onClick={toggleMode}
+                title="Toggle Light/Dark Mode"
+              >
+                {mode === "dark" ? <MdOutlineLightMode size={24} /> : <MdOutlineDarkMode size={24} />}
               </div>
             </div>
 
@@ -130,13 +146,13 @@ function MainLayout(props) {
         {/* ===== END ASIDE ===== */}
 
         {/* ===== KANAN: Header + Content ===== */}
-        <div className="bg-special-mainBg flex-1 flex flex-col">
+        <div className="bg-special-mainBg dark:bg-gray-900 flex-1 flex flex-col">
 
           {/* Header */}
-          <header className="border border-b border-gray-05 px-6 py-4 flex justify-between items-center bg-white">
+          <header className="border-b border-gray-05 dark:border-gray-700 px-6 py-4 flex justify-between items-center bg-white dark:bg-gray-800">
             {/* Kiri: Username + Date */}
             <div className="flex items-center">
-              <div className="font-semibold text-defaultBlack me-3">Hello {user?.name}</div>
+              <div className="font-semibold text-defaultBlack dark:text-white me-3">Hello {user?.name}</div>
               <div className="text-gray-02 text-sm">May 19, 2023</div>
             </div>
             {/* Kanan: Icon + Search */}
@@ -147,8 +163,8 @@ function MainLayout(props) {
               <Input
                 type="text"
                 placeholder="Search here..."
-                backgroundColor="bg-white"
-                border="border-white"
+                backgroundColor="bg-white dark:bg-gray-700 dark:text-white"
+                border="border-white dark:border-gray-700"
               />
             </div>
           </header>
@@ -162,6 +178,13 @@ function MainLayout(props) {
         {/* ===== END KANAN ===== */}
 
       </div>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoggingOut}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }

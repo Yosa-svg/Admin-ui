@@ -14,11 +14,13 @@ import {
   expensesStatistics,
 } from "../data";
 import { AuthContext } from "../context/authContext";
-import { goalService } from "../services/dataService";
+import { goalService, billService } from "../services/dataService";
 import AppSnackbar from "../components/Elements/AppSnackbar";
 
 function Dashboard() {
   const [goals, setGoals] = useState({});
+  const [billsData, setBillsData] = useState([]);
+  const [isLoadingBills, setIsLoadingBills] = useState(true);
   const { logout } = useContext(AuthContext);
 
   const [snackbar, setSnackbar] = useState({
@@ -45,8 +47,26 @@ function Dashboard() {
     }
   };
 
+  const fetchBills = async () => {
+    try {
+      setIsLoadingBills(true);
+      const data = await billService();
+      setBillsData(data);
+    } catch (err) {
+      console.error("Gagal mengambil data bills:", err);
+      if (err.status === 401) {
+        logout();
+      } else {
+        setSnackbar({ open: true, message: err.msg || "Failed to fetch bills", severity: "error" });
+      }
+    } finally {
+      setIsLoadingBills(false);
+    }
+  };
+
   useEffect(() => {
     fetchGoals();
+    fetchBills();
   }, []);
 
   return (
@@ -61,7 +81,7 @@ function Dashboard() {
           <CardGoal data={goals} />
         </div>
         <div className="sm:col-span-4">
-          <CardUpcomingBill data={bills} />
+          <CardUpcomingBill data={billsData} isLoading={isLoadingBills} />
         </div>
 
         {/* Row 2 & 3 */}

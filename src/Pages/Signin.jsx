@@ -5,8 +5,11 @@ import { loginService } from '../services/authService';
 import { AuthContext } from '../context/authContext';
 import AppSnackbar from '../components/Elements/AppSnackbar';
 
+import { ThemeContext } from '../context/themeContext';
+
 function Signin() {
   const { login } = useContext(AuthContext);
+  const { mode, toggleMode } = useContext(ThemeContext);
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -37,6 +40,14 @@ function Signin() {
   return (
     <AuthLayout title="Sign in to your account" type="login">
       <FormSignin onSubmit={handleLogin} />
+      <div className="mt-6 flex justify-center">
+        <button
+          onClick={toggleMode}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md text-sm font-medium transition-colors"
+        >
+          Toggle {mode === "light" ? "Dark" : "Light"} Mode
+        </button>
+      </div>
       <AppSnackbar
         open={snackbar.open}
         message={snackbar.message}

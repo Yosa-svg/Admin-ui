@@ -113,7 +113,7 @@ function FormSignUp(props) {
               </div>
 
               {/* BUTTON */}
-              <Button>{isSubmitting ? "Loading..." : "Register"}</Button>
+              <Button>{isSubmitting ? "Loading.." : "Register"}</Button>
             </Form>
           )}
         </Formik>
